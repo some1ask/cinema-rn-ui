@@ -7,6 +7,7 @@ import { HeartIcon } from 'react-native-heroicons/solid';
 import { LinearGradient } from 'expo-linear-gradient';
 import Cast from '../components/cast';
 import MovieList from '../components/movieList';
+import Loading from '../components/loading';
 
 export default function MovieScreen() {
     
@@ -14,8 +15,10 @@ export default function MovieScreen() {
     const {params:item} = useRoute();
     const navigation = useNavigation();
     const [isFavorite,setIsFavorite] = useState(false);
-    const [cast,setCast] = useState([1,2,3,4,5])
-    const [similarMovies,setSimilarMovies] = useState([1,2,3,4,5])
+    const [cast,setCast] = useState([1,2,3,4,5]);
+    const [similarMovies,setSimilarMovies] = useState([1,2,3,4,5]);
+    const [loading,setLoading] = useState(false);
+    
     const ios = Platform.OS == 'ios';
     const topMargin = ios ? '' : ' mt-3';
     useEffect(()=>{
@@ -32,7 +35,12 @@ export default function MovieScreen() {
                 <HeartIcon size={35} color={ isFavorite ? "red" :"white"}/>
             </TouchableOpacity>
         </SafeAreaView>
-        <View>
+
+        {
+          loading? (
+            <Loading/>
+          ) : (
+            <View>
           <Image source={require('../assets/icon.png')}
                  style={{width,height:height*0.55}}
           />
@@ -42,6 +50,10 @@ export default function MovieScreen() {
           end={{x: 0.5,y: 1}}
           className="absolute bottom-0"/>
         </View>
+          )
+        }
+
+        
       </View>
 
       <View style={{marginTop: -(height*0.09)}} className="space-y-3">
